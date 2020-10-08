@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name lsd100bag-101-20)(type Legacy)(uri ${KIPRJMOD}/libs/lsd100bag-101-20.lib)(options "")(descr ""))
+)

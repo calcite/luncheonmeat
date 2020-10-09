@@ -704,7 +704,7 @@ U 1 1 5F829B9F
 P 7500 5150
 F 0 "SW1" V 7454 5298 50  0000 L CNN
 F 1 "SW_Push" V 7545 5298 50  0000 L CNN
-F 2 "Button_Switch_THT:SW_PUSH_6mm" H 7500 5350 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7500 5350 50  0001 C CNN
 F 3 "~" H 7500 5350 50  0001 C CNN
 	1    7500 5150
 	0    1    1    0   

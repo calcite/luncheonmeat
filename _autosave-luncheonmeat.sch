@@ -1619,28 +1619,6 @@ Text Label 3500 5250 0    50   ~ 0
 DR-
 Text Label 3500 5350 0    50   ~ 0
 DR+
-$Comp
-L Jumper:Jumper_2_Open JP?
-U 1 1 5FE76AA6
-P 3350 3900
-F 0 "JP?" H 3350 4135 50  0000 C CNN
-F 1 "Jumper_2_Open" H 3350 4044 50  0000 C CNN
-F 2 "" H 3350 3900 50  0001 C CNN
-F 3 "~" H 3350 3900 50  0001 C CNN
-	1    3350 3900
-	1    0    0    -1  
-$EndComp
-$Comp
-L Jumper:Jumper_2_Open JP?
-U 1 1 5FE77D43
-P 3350 4200
-F 0 "JP?" H 3350 4435 50  0000 C CNN
-F 1 "Jumper_2_Open" H 3350 4344 50  0000 C CNN
-F 2 "" H 3350 4200 50  0001 C CNN
-F 3 "~" H 3350 4200 50  0001 C CNN
-	1    3350 4200
-	1    0    0    -1  
-$EndComp
 Wire Bus Line
 	6200 900  6200 1600
 Wire Bus Line
@@ -1649,12 +1627,4 @@ Wire Bus Line
 	3500 900  3500 3400
 Wire Bus Line
 	8200 1600 8200 6000
-Text GLabel 3150 4200 0    50   Input ~ 0
-TX
-Text GLabel 3550 4200 2    50   Input ~ 0
-TX
-Text GLabel 3550 3900 2    50   Input ~ 0
-RX
-Text GLabel 3150 3900 0    50   Input ~ 0
-RX
 $EndSCHEMATC

@@ -1,0 +1,54 @@
+{
+	"name": "AVR-GCC",
+	// "build": {
+	"dockerFile": "Dockerfile",
+	// Update 'VARIANT' to pick an Debian / Ubuntu OS version: debian-10, debian-9, ubuntu-20.04, ubuntu-18.04
+	// "args": {
+	// "VARIANT": "debian-10"
+	// }
+	// },
+	//
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"terminal.integrated.shellArgs.linux": [
+			"-l"
+		],
+		"editor.wordWrap": "bounded",
+		"editor.wrappingIndent": "indent",
+		"editor.wordWrapColumn": 100,
+		"editor.rulers": [
+			80,
+			100
+		],
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-vscode.cpptools"
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	//
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": ",
+	//
+	// Uncomment to use Docker from inside the container. See https://aka.ms/vscode-remote/samples/docker-in-docker.
+	"mounts": [
+		// "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+	],
+	//
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
+	//
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+	//
+	"remoteEnv": {
+		"CONT_PROJECT_ROOT": "${containerWorkspaceFolder}",
+		"HOST_PROJECT_ROOT": "${localWorkspaceFolder}"
+	}
+}

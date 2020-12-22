@@ -1,4 +1,4 @@
-update=Mon Dec 21 14:05:02 2020
+update=Tue Dec 22 12:14:18 2020
 version=1
 last_client=kicad
 [general]
@@ -251,7 +251,7 @@ dPairGap=0.25
 dPairViaGap=0.25
 [pcbnew/Netclasses/1]
 Name=Power
-Clearance=0.5
+Clearance=0.3
 TrackWidth=0.8
 ViaDiameter=0.9
 ViaDrill=0.6
@@ -263,6 +263,17 @@ dPairViaGap=0.25
 [pcbnew/Netclasses/2]
 Name=Signals
 Clearance=0.3
+TrackWidth=0.3
+ViaDiameter=0.6
+ViaDrill=0.4
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
+[pcbnew/Netclasses/3]
+Name=sSignals
+Clearance=0.1
 TrackWidth=0.3
 ViaDiameter=0.6
 ViaDrill=0.4

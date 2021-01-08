@@ -1,10 +1,10 @@
-SchematicFramePos_x=566
-SchematicFramePos_y=109
-SchematicFrameSize_x=1125
-SchematicFrameSize_y=788
+SchematicFramePos_x=513
+SchematicFramePos_y=141
+SchematicFrameSize_x=1407
+SchematicFrameSize_y=810
 SchematicFrameMaximized=0
 SchematicFrameAutoSaveInterval=600
-SchematicFramePerspective=layout2|name=MainToolbar;caption=;state=139644;dir=1;layer=6;row=0;pos=0;prop=100000;bestw=1016;besth=36;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=OptToolbar;caption=;state=139596;dir=4;layer=3;row=0;pos=0;prop=100000;bestw=36;besth=212;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=ToolsToolbar;caption=;state=139596;dir=2;layer=1;row=0;pos=0;prop=100000;bestw=36;besth=688;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=DrawFrame;caption=;state=1020;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=387;besth=141;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=MsgPanel;caption=;state=131452;dir=3;layer=6;row=0;pos=0;prop=100000;bestw=400;besth=36;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(1,6,0)=36|dock_size(4,3,0)=36|dock_size(2,1,0)=36|dock_size(5,0,0)=337|dock_size(3,6,0)=36|
+SchematicFramePerspective=layout2|name=MainToolbar;caption=;state=139644;dir=1;layer=6;row=0;pos=0;prop=100000;bestw=1016;besth=36;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=OptToolbar;caption=;state=139596;dir=4;layer=3;row=0;pos=0;prop=100000;bestw=36;besth=212;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=ToolsToolbar;caption=;state=139596;dir=2;layer=1;row=0;pos=0;prop=100000;bestw=36;besth=688;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=DrawFrame;caption=;state=1020;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=387;besth=141;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=MsgPanel;caption=;state=131452;dir=3;layer=6;row=0;pos=0;prop=100000;bestw=400;besth=36;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(1,6,0)=36|dock_size(4,3,0)=36|dock_size(2,1,0)=36|dock_size(5,0,0)=389|dock_size(3,6,0)=36|
 SchematicFrameMostRecentlyUsedPath=/home/kicad
 SchematicFrameUnits=1
 SchematicFrameShowGrid=1
@@ -79,3 +79,20 @@ file6=
 file7=
 file8=
 file9=
+SymbolFieldsShownColumns=0 1 2 3 4 5 6 7
+CustomNetlistTitle1=
+CustomNetlistCommand1=
+CustomNetlistTitle2=
+CustomNetlistCommand2=
+CustomNetlistTitle3=
+CustomNetlistCommand3=
+CustomNetlistTitle4=
+CustomNetlistCommand4=
+CustomNetlistTitle5=
+CustomNetlistCommand5=
+CustomNetlistTitle6=
+CustomNetlistCommand6=
+CustomNetlistTitle7=
+CustomNetlistCommand7=
+CustomNetlistTitle8=
+CustomNetlistCommand8=

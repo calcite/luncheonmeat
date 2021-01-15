@@ -1,8 +1,13 @@
 # CHANGELOG
 
+## v0.2.1 [2021/01/15]
+
+- Fix P-MOS driver transistors connections.
+- Confirm 7-segmet parts.
+
 ## v0.2.1 [2021/01/08]
 
-- fix usb data lines connection
+- Fix usb data lines connection
 
 ## v0.2.0 [2020/12/22]
 

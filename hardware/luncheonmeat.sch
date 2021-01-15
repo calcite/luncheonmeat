@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Luncheomat"
-Date "2020-12-22"
-Rev "v0.2.0"
+Date "2021-01-15"
+Rev "v0.2.2"
 Comp "AlpsAlpine"
 Comment1 ""
 Comment2 ""
@@ -139,7 +139,7 @@ F 1 "Q_PMOS_DGS" H 9205 4805 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 9200 4950 50  0001 C CNN
 F 3 "~" H 9000 4850 50  0001 C CNN
 	1    9000 4850
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 Wire Wire Line
 	8800 4850 8750 4850
@@ -239,7 +239,7 @@ F 1 "Q_PMOS_DGS" H 9205 3055 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 9200 3200 50  0001 C CNN
 F 3 "~" H 9000 3100 50  0001 C CNN
 	1    9000 3100
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 Wire Wire Line
 	8800 3100 8750 3100
@@ -1199,7 +1199,7 @@ F 1 "Q_PMOS_DGS" H 9205 1305 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 9200 1450 50  0001 C CNN
 F 3 "~" H 9000 1350 50  0001 C CNN
 	1    9000 1350
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 Wire Wire Line
 	8750 1350 8750 1450
@@ -1884,14 +1884,6 @@ F 3 "" H 4650 4550 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4650 4550 4650 4600
-Wire Bus Line
-	6200 900  6200 1600
-Wire Bus Line
-	7150 1600 7150 3700
-Wire Bus Line
-	3500 900  3500 3400
-Wire Bus Line
-	8200 1600 8200 6000
 Connection ~ 4650 4600
 $Comp
 L power:+3V3 #PWR?
@@ -1915,4 +1907,12 @@ F 3 "" H 3300 6850 50  0001 C CNN
 	1    3300 6850
 	1    0    0    -1  
 $EndComp
+Wire Bus Line
+	6200 900  6200 1600
+Wire Bus Line
+	7150 1600 7150 3700
+Wire Bus Line
+	3500 900  3500 3400
+Wire Bus Line
+	8200 1600 8200 6000
 $EndSCHEMATC

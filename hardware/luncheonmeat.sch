@@ -6,7 +6,7 @@ encoding utf-8
 Sheet 1 1
 Title "Luncheomat"
 Date "2021-01-15"
-Rev "v0.2.3"
+Rev "v0.2.4"
 Comp "AlpsAlpine"
 Comment1 ""
 Comment2 ""

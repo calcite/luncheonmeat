@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.4 [2021/01/19]
+
+- button alignment.
+
 ## v0.2.3 [2021/01/19]
 
 - move 7-segments together.
@@ -24,3 +28,4 @@
 
 - Taken over by Juraj.
 - Created files structure.
+

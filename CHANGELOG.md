@@ -1,6 +1,11 @@
 # CHANGELOG
 
-## v0.2.1 [2021/01/15]
+## v0.2.3 [2021/01/19]
+
+- move 7-segments together.
+- generate step file for case design.
+
+## v0.2.2 [2021/01/15]
 
 - Fix P-MOS driver transistors connections.
 - Confirm 7-segmet parts.

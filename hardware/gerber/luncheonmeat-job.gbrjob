@@ -5,9 +5,9 @@
     {
       "Vendor":      "KiCad",
       "Application": "Pcbnew",
-      "Version":     "5.1.8-db9833491~88~ubuntu20.04.1"
+      "Version":     "5.1.9-73d0e3b20d~88~ubuntu20.04.1"
     },
-    "CreationDate":  "2021-01-15T13:02:49+00:00"
+    "CreationDate":  "2021-01-19T09:01:57+01:00"
   },
   "GeneralSpecs":
   {
@@ -15,7 +15,7 @@
     {
       "Name": "luncheonmeat",
       "GUID": "6c756e63-6865-46f6-9e6d-6561742e6b69",
-      "Revision": "v0.2.2"
+      "Revision": "v0.2.3"
     },
     "Size":
     {

@@ -1,3 +1,7 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP lsd100bag-101-20
+F https://www.tme.eu/Document/517e6528195b870014d9e212720d4b0b/LSD100BAG-101.pdf
+$ENDCMP
+#
 #End Doc Library

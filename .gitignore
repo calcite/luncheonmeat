@@ -78,4 +78,11 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# Others
+# Project C outputs
+*.eep
+*.lss
+*.sym
+*.lst
+obj/*
+.dep/*
+

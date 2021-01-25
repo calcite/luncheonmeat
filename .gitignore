@@ -85,4 +85,5 @@ dkms.conf
 *.lst
 obj/*
 .dep/*
+docs/
 

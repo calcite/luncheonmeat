@@ -1,11 +1,11 @@
 FROM debian:10
 
 LABEL Name="avr-gcc-dev-container" \
-      Maintainer="j74a8g+avr-gcc-dev@gmail.com" \
-      Author="Juraj Giertl" \
-      Date="2020.11.08" \
-      Version="0.1" \
-      Description="Visual Studio Dev container for AVR"
+    Maintainer="j74a8g+avr-gcc-dev@gmail.com" \
+    Author="Juraj Giertl" \
+    Date="2021.01.25" \
+    Version="0.2" \
+    Description="Visual Studio Dev container for AVR"
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -47,6 +47,12 @@ RUN usermod -a -G dialout $USERNAME
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
+
+ADD avr5/* /usr/lib/avr/lib/avr5/
+ADD iom328pb.h /usr/lib/avr/include/avr/
+ADD *.patch /tmp
+
+RUN patch /usr/lib/avr/include/avr/io.h < /tmp/io.patch
 
 USER $USERNAME
 WORKDIR /workspaces

@@ -5,7 +5,7 @@
 # (GNU make, BSD make, SysV make)
 
 
-MCU = atmega168
+MCU = atmega328pb
 FORMAT = ihex
 TARGET = bootloader
 SRC = main.c serial.c

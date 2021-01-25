@@ -25,7 +25,8 @@ void USART_Init(unsigned int ubrr)
     // UCSRB = (1 << RXEN) | (1 << TXEN);
     // /* Set frame format: 8data, 2stop bit */
     // UCSRC = (1 << URSEL) | (1 << USBS) | (3 << UCSZ0);
-#elif defined(__AVR_ATmega328P__)
+#elif defined(__AVR_ATmega328PB__)
+# warning "todo"
 #elif (defined __AVR_ATmega328__)
     /*Set baud rate */
     UBRR0L = (unsigned char)ubrr;
@@ -57,6 +58,8 @@ void USART_Transmit(unsigned char data)
         UCSR0B |= (1 << TXB8);
     /* Put data into buffer, sends the data */
     UDR0 = data;
+#elif defined(__AVR_ATmega328PB__)
+# warning "todo"
 #else
 #error "MCU not supported"
 #endif
@@ -75,6 +78,8 @@ unsigned char USART_Receive(void)
         ;
     /* Put data into buffer, sends the data */
     return UDR0;
+#elif defined(__AVR_ATmega328PB__)
+# warning "todo"
 #else
 #error "MCU not supported"
 #endif
@@ -89,6 +94,8 @@ void USART_Flush(void)
 #elif (defined __AVR_ATmega328__)
     while (UCSR0A & (1 << RXC0))
         dummy = UDR0;
+#elif defined(__AVR_ATmega328PB__)
+# warning "todo"
 #else
 #error "MCU not supported"
 #endif

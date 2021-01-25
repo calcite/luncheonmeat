@@ -1,0 +1,11 @@
+--- io.h	2021-01-25 10:38:52.655222441 +0000
++++ io-new.h	2021-01-25 10:40:05.221519616 +0000
+@@ -268,6 +268,8 @@
+ #  include <avr/iom3250p.h>
+ #elif defined (__AVR_ATmega3250PA__)
+ #  include <avr/iom3250pa.h>  
++#elif defined (__AVR_ATmega328PB__) || defined (__AVR_ATmega328__)
++#  include <avr/iom328pb.h>
+ #elif defined (__AVR_ATmega328P__)
+ #  include <avr/iom328p.h>
+ #elif (defined __AVR_ATmega328__)

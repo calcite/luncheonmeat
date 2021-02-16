@@ -274,16 +274,18 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # Type: avrdude -c ?
 # to get a full listing.
 #
-AVRDUDE_PROGRAMMER = usbasp
+# AVRDUDE_PROGRAMMER = usbasp
+AVRDUDE_PROGRAMMER = dragon_isp
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
 AVRDUDE_PORT = usb
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
-AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
+# AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
-AVRDUDE_WRITE_LFUSE = -U lfuse:w:0xE2:m	
-AVRDUDE_WRITE_HFUSE = -U hfuse:w:0xD9:m
+AVRDUDE_WRITE_LFUSE = -U lfuse:w:0xE2:m
+# AVRDUDE_WRITE_HFUSE = -U hfuse:w:0xD9:m
+# AVRDUDE_WRITE_HFUSE = -U efuse:w:0xF7:m
 # AVRDUDE_WRITE_LOCK = -U lock:w:0xFF:m
 
 

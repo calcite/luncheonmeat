@@ -32,13 +32,12 @@ volatile int16_t t_read = 0, t_set = 0;
 
 void io_init(void)
 {
-    PD_DDR &= ~(0 << PD); // as input
-    PD_PORT |= (1 << PD); // pullups
+    // PD_DDR &= ~(0 << PD); // as input
+    // PD_PORT |= (1 << PD); // pullups
 
-    LED_DDR |= (1 << LED_G) | (1 << LED_R);
+    LED_DDR |= (1 << LED_G);
     // LED_PORT&=~(1<<LED_G)|(1<<LED_R);
     LEDG_OFF;
-    LEDR_OFF;
 }
 
 void pwm1_init(void)
@@ -60,9 +59,9 @@ void pwm1_init(void)
 void pwm2_init(void)
 {
     TCNT2 = 0x00;
-    DDRB |= (1 << DDB3);                 // enable PB3 for PWM output OC2
+    DDRB |= (1 << DDB3);                  // enable PB3 for PWM output OC2
     TCCR2A = (1 << WGM21) | (1 << WGM20); // Fast PWM
-    TCCR2A |= (1 << COM2A1);               // Clear OC2 on Compare Match, set OC2 at BOTTOM, (non - inverting mode)
+    TCCR2A |= (1 << COM2A1);              // Clear OC2 on Compare Match, set OC2 at BOTTOM, (non - inverting mode)
     TCCR2A |= (1 << CS22);                // clkT2S/64 (From prescaler)
     // TIMSK |= (1 << TOIE2);               // Overflow Interrupt Enable
     OCR2A = 0x7f;
@@ -72,15 +71,13 @@ void init(void)
 {
     io_init();
     usart_init();
-    pwm1_init(); // pid_init
-    pwm2_init();
+    // pwm1_init(); // pid_init
+    // pwm2_init();
 
     _delay_ms(2000);
     // enable global interrupts
     sei();
 }
-
-
 
 int main(void)
 {
@@ -93,7 +90,12 @@ int main(void)
 
     while (1)
     {
-        _delay_ms(25);
+        LEDG_ON;
+        _delay_ms(250);
+        LEDG_OFF;
+        _delay_ms(250);
+
+        transmitString_F(PSTR("*   \tE-mail:  \" jurinko08@gmail.com \"    *\r\n"));
     }
 
     return 0;

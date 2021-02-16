@@ -5,26 +5,12 @@
 #ifndef _HW_DEF_H_
 #define _HW_DEF_H_
 
-#define T_MAX 380.0
-#define T_MIN 50.0
-#define PID_KP (8.0)
-#define PID_KI (0.0)
-#define PID_KD (0.0)
-
-#define PD PC3 /* probe detect */
-#define PD_PORT PORTC
-#define PD_DDR DDRC
-#define PD_PIN PINC
-
-#define LED_G PC5
-#define LED_R PC4
+#define LED_G PC0
 #define LED_PORT PORTC
 #define LED_DDR DDRC
 
 #define LEDG_ON LED_PORT &= ~(1 << LED_G);
 #define LEDG_OFF LED_PORT |= (1 << LED_G);
-#define LEDR_ON LED_PORT &= ~(1 << LED_R);
-#define LEDR_OFF LED_PORT |= (1 << LED_R);
 
 #define IRON_PW OCR1B // iron heat output 10 bit
 #define IRON_ADC ADCH

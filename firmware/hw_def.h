@@ -9,8 +9,7 @@
 #define LED_PORT PORTC
 #define LED_DDR DDRC
 
-#define LEDG_ON LED_PORT &= ~(1 << LED_G);
-#define LEDG_OFF LED_PORT |= (1 << LED_G);
+
 
 #define IRON_PW OCR1B // iron heat output 10 bit
 #define IRON_ADC ADCH

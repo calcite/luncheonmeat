@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v0.3.0 [2021/02/18]
+
+First firmware release. This release includes:
+
+- 7 segment display driver.
+- key matrix readout.
+- USART driver and simple transport packet format.
+- Coplete startup and device operation.
+
 ## v0.2.4 [2021/01/19]
 
 - button alignment.
@@ -28,4 +37,3 @@
 
 - Taken over by Juraj.
 - Created files structure.
-

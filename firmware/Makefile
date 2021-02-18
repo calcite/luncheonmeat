@@ -281,7 +281,7 @@ AVRDUDE_PROGRAMMER = dragon_isp
 AVRDUDE_PORT = usb
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
-# AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
+AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
 AVRDUDE_WRITE_LFUSE = -U lfuse:w:0xE2:m
 # AVRDUDE_WRITE_HFUSE = -U hfuse:w:0xD9:m

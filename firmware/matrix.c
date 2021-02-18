@@ -20,35 +20,32 @@
 
 #define PIN(x) (*(&x - 2)) // return address of PIN from PORT
 
+#define matric_keypad_idle_cnt_reset() \
+    {                                  \
+        g_idle_cnt = IDLE_CNT_MAX;     \
+        timer2_run();                  \
+    }
+#define timer2_run() TCCR2B |= (1 << CS22) | (1 << CS21) | (1 << CS20)
+#define timer2_stop() TCCR2B &= ~((1 << CS22) | (1 << CS21) | (1 << CS20))
+
 volatile static uint16_t g_idle_cnt = IDLE_CNT_MAX;
 volatile static device_idle g_dev_idle_cb = NULL;
-
-#define matric_keypad_idle_cnt_reset() g_idle_cnt = IDLE_CNT_MAX
 
 /*
  * function prototypes
  */
+inline bool matrix_keypad_is_enter_key(int8_t key);
+inline bool matrix_keypad_is_clear_key(int8_t key);
 
 /*
  * local functions
  */
 
-#define timer2_set_time() TCNT1 = SET_TIME_TIMER1;
-#define timer2_run() TCCR2B |= (1 << CS22) | (0 << CS21) | (1 << CS20)
-#define timer2_stop() TCCR2B &= ~((1 << CS22) | (1 << CS21) | (1 << CS20))
-
 void matrix_keypad_timer_2_init(void)
 {
-    // Normal operation
-    TCCR2B = (0 << CS22) | (0 << CS21) | (1 << CS20); // /1
-
-    // TCCR1A = (1 << COM1A1) | (1 << COM1B1);
-    // TCCR1A |= (0 << WGM11) | (0 << WGM10)
-    // TCCR1B |= (0 << WGM12) ;
-
-    TIMSK2 |= (1 << TOIE2); // Overflow Interrupt Enable
-
     TCNT2 = 0x0000;
+    TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20); // Normal operation, F_CPU/1024
+    TIMSK2 |= (1 << TOIE2);                           // Overflow Interrupt Enable
 }
 
 static inline void matric_keypad_set_col_port_out(void)
@@ -208,46 +205,11 @@ int8_t matrix_keypad_process()
 {
     int8_t key;
 
-    //0 adresa, 1 prikaz, data0, data1, data2, data3, data4, data5, data6;
-    //casova klavesnice klavesovy buffer
-    // #define max_ptr 12
-    // int zmacknute_klavesy_buff[max_ptr] = {0};
-    // uint8_t tlac_ptr = 0;
-
     key = matric_keypad_read();
     matric_keypad_wait_key_release();
-    // while (1)
-    // {
-    //     switch (key)
-    //     {
-    //     case 0:
-    //         break;
-    //     case -1:
-    //         matric_keypad_wait_key_release();
-    //         tlac_ptr = 0;
-    //         return;
-    //         break;
-    //     case KLC_ENTER: //KLC_CLEAR //vyhodnoceni zmacknutych klaves
-    //         // Vyhodnoceni_zmacknutych_klaves_casu(zmacknute_klavesy_buff, tlac_ptr);
-    //         matric_keypad_wait_key_release();
-    //         tlac_ptr = 0;
-    //         return key;
-    //         break;
-    //     default:
-    //         if (tlac_ptr < (max_ptr - 1))
-    //             zmacknute_klavesy_buff[tlac_ptr++] = key;
-    //         else
-    //         {
-    //             matric_keypad_wait_key_release();
-    //             tlac_ptr = 0;
-    //             return key;
-    //         }
-    //         matric_keypad_wait_key_release();
-    //         break;
-    //     }
 
-    //     key = matric_keypad_read();
-    // }
+    // if (key != -1)
+    //     matrix_keypad_idle_reset();
 
     return matrix_keypad_decode_key(key);
 }

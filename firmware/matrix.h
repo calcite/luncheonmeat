@@ -32,19 +32,21 @@
 #define COL_1_PORT      PORTB
 #define COL_2_PORT      PORTB
 
-#define IDLE_CNT_MAX 360;
+#define IDLE_CNT_MAX 610; // is 20 seconds, s * 30.5 
 #define MK_KEY_CLEAR (0x2A)
 #define MK_KEY_ENTER (0x23)
 
 typedef void (*device_idle)(void);
 
 void matrix_keypad_register_idle_cb(device_idle cb);
+void matrix_keypad_idle_reset(void);
 
-extern inline bool matrix_keypad_is_enter_key(int8_t key);
-extern inline bool matrix_keypad_is_clear_key(int8_t key);
+
+bool matrix_keypad_is_enter_key(int8_t key);
+bool matrix_keypad_is_clear_key(int8_t key);
 
 void matric_keypad_wait_key_release(void);
-int8_t matrix_keypad_process();
+int8_t matrix_keypad_process(void);
 void matrix_keypad_init(void);
 
 #endif

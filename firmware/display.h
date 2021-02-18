@@ -63,9 +63,9 @@
 #define SEG_POS_2_PORT         PORTD  
 #define SEG_POS_2_PIN          PIND5
 
-#define SEG_DISP_CHAR_CLEAR    (0xFe) // 0xFF
+#define SEG_DISP_CHAR_CLEAR    (0xFF) // 0xFF
 
-static uint8_t seg_display_chars[18] =
+static uint8_t __attribute__((used)) seg_display_chars[18] =
 {
 	(A << seg_a) | (A << seg_b) | (A << seg_c) | (A << seg_d) | (A << seg_e) | (A << seg_f) | (N << seg_g) | (N << seg_dp),//0
 	(N << seg_a) | (A << seg_b) | (A << seg_c) | (N << seg_d) | (N << seg_e) | (N << seg_f) | (N << seg_g) | (N << seg_dp),//1
@@ -88,17 +88,17 @@ static uint8_t seg_display_chars[18] =
 
 };
 
+void seg_display_wait_animation(uint8_t from, uint8_t to, uint16_t speed);
 
-
+void seg_dispaly_set_digits(uint8_t d2, uint8_t d1, uint8_t d0);
 void seg_dispaly_set_dec_num(uint16_t num);
+
+void seg_display_draw_circle(void);
+void seg_display_draw_line(void);
 void seg_display_clear(void);
 
+void seg_display_set_contrast(uint8_t val);
+
 void seg_display_init(void);
-
-
-
-
- void seg_dispaly_set_segment(uint8_t pos, uint8_t num)
-;
 
 #endif

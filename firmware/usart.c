@@ -10,12 +10,21 @@
 #error "F_CPU not defined!"
 #endif
 
+/*
+ * function prototypes
+ */
+void usart_init_internal(unsigned int ubrr);
+
+/*
+ * local functions
+ */
+
 void usart_init(void)
 {
-    USART_Init(CAL_UBRR);
+    usart_init_internal(CAL_UBRR);
 }
 
-void USART_Init(unsigned int ubrr)
+inline void usart_init_internal(unsigned int ubrr)
 {
 #if (defined __AVR_ATmega8__)
     /* Set baud rate */
@@ -45,7 +54,8 @@ void USART_Init(unsigned int ubrr)
 #error "MCU not supported"
 #endif
 }
-void USART_Transmit(unsigned char data)
+
+inline void usart_transmit(unsigned char data)
 {
 #if (defined __AVR_ATmega8__)
     /* Wait for empty transmit buffer */
@@ -80,7 +90,7 @@ void USART_Transmit(unsigned char data)
 #endif
 }
 
-unsigned char USART_Receive(void)
+inline unsigned char usart_receive(void)
 {
 #if (defined __AVR_ATmega8__)
     /* Wait for data to be received */
@@ -104,7 +114,7 @@ unsigned char USART_Receive(void)
 #endif
 }
 
-void USART_Flush(void)
+inline void usart_flush(void)
 {
     unsigned char dummy;
 #if (defined __AVR_ATmega8__)
@@ -158,7 +168,7 @@ void transmitHex(unsigned char dataType, unsigned long data)
 void transmitString_F(const char *string)
 {
     while (pgm_read_byte(&(*string)))
-        USART_Transmit(pgm_read_byte(&(*string++)));
+        usart_transmit(pgm_read_byte(&(*string++)));
 }
 
 //***************************************************
@@ -167,5 +177,64 @@ void transmitString_F(const char *string)
 void transmitString(char *string)
 {
     while (*string)
-        USART_Transmit(*string++);
+        usart_transmit(*string++);
+}
+
+typedef struct _simple_protocol_packet_t
+{
+    uint8_t version : 4;
+    uint8_t reserved : 4;
+    int16_t number;
+    uint8_t crc;
+    char end;
+} __attribute__((packed)) simple_protocol_packet_t;
+
+simple_protocol_packet_t tx_packet;
+
+void usart_simple_protocol_init(void)
+{
+    tx_packet.version = 0x1;
+    tx_packet.reserved = 0xf;
+    tx_packet.number = 0x0000;
+    tx_packet.crc = 0x00;
+    tx_packet.end = '\n';
+}
+
+void usart_simple_protocol_cal_crc(void)
+{
+    uint8_t byte, crc, fbck, i, j;
+    const uint8_t CRC_POLY = 0x18; // 0X18 = X^8+X^5+X^4+X^0
+
+    uint8_t *data = (uint8_t *)&tx_packet;
+    uint8_t data_len = sizeof(simple_protocol_packet_t) - 2;
+
+    crc = 0x00;
+    for (j = 0; j != data_len; j++)
+    {
+        byte = data[j];
+        for (i = 0; i < 8; i++)
+        {
+            fbck = (crc ^ byte) & 0x01;
+            if (fbck == 0x01)
+                crc ^= CRC_POLY;
+            crc = (crc >> 1) & 0x7F;
+            if (fbck == 0x01)
+                crc |= 0x80;
+            byte >>= 1;
+        }
+    }
+
+    tx_packet.crc = crc;
+}
+
+void usart_simple_protocol_transmit(int16_t number)
+{
+    tx_packet.number = number;
+    usart_simple_protocol_cal_crc();
+
+    uint8_t *data = (uint8_t *)&tx_packet;
+    for (uint8_t i = 0; i < sizeof(simple_protocol_packet_t); ++i)
+    {
+        usart_transmit(data[i]);
+    }
 }

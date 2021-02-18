@@ -2,16 +2,11 @@
  *  Copyright (C) 2020 Juraj Giertl
  *  All Rights Reserved.
  */
-#include <stdio.h>
-#include <math.h>
-
 #include <avr/io.h>
 #include <avr/eeprom.h>
 #include <avr/pgmspace.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-
-#include <avr/version.h>
 
 #include "matrix.h"
 #include "display.h"
@@ -22,35 +17,14 @@
 #warning "F_CPU not defined"
 #endif
 
+#define GET_INT(s) ((s)-0x30)
 #define LEDG_OFF LED_PORT &= ~(1 << LED_G);
 #define LEDG_ON LED_PORT |= (1 << LED_G);
 
-const char fw_ver[] PROGMEM = "v0.2.4";
-const uint16_t set_iron_tmp EEMEM = 325;
-const uint8_t lcd_back_pwm EEMEM = 128;
-const uint8_t lcd_contrast_pwm EEMEM = 128;
-
-char buffer[16];
-volatile int16_t t_read = 0, t_set = 0;
-
-void io_init(void)
-{
-    LED_DDR |= (1 << LED_G);
-    LEDG_ON;
-}
-
-void init(void)
-{
-    io_init();
-    usart_init();
-    matrix_keypad_init();
-    seg_display_init();
-
-    _delay_ms(2000);
-    LEDG_OFF;
-    // enable global interrupts
-    sei();
-}
+const char comment[] PROGMEM = COMMENT;
+const char fw_ver[] PROGMEM = HW_VER_TAG;
+const char sw_ver[] PROGMEM = SW_VER_TAG;
+const uint8_t seg_disp_contrast EEMEM = 128;
 
 typedef struct _num_buf_t
 {
@@ -60,11 +34,18 @@ typedef struct _num_buf_t
     uint8_t digit[NUM_BUF_MAX];
 } num_buf_t;
 
+num_buf_t disp_num_buf;
+
+/*
+ * local functions
+ */
 void buf_num_init(num_buf_t *n_buf)
 {
     n_buf->head_ = 0;
     n_buf->tail_ = 0;
     n_buf->number = 0;
+    for (uint8_t i = 0; i < NUM_BUF_MAX; ++i)
+        n_buf->digit[i] = 0;
 }
 
 void buf_num_put(num_buf_t *n_buf, uint8_t digit)
@@ -88,7 +69,6 @@ uint8_t buf_num_get(num_buf_t *n_buf)
 
 void buf_num_get_number(num_buf_t *n_buf, int16_t *num)
 {
-    int8_t tmp = 0;
     uint8_t tail = n_buf->tail_;
     uint8_t head = n_buf->head_;
 
@@ -104,65 +84,88 @@ void buf_num_get_number(num_buf_t *n_buf, int16_t *num)
     *num = n_buf->number;
 }
 
+void io_init(void)
+{
+    LED_DDR |= (1 << LED_G);
+    LEDG_OFF;
+}
+
+void init(void)
+{
+    io_init();
+    usart_init();
+    usart_simple_protocol_init();
+    matrix_keypad_init();
+    seg_display_init();
+
+    // enable global interrupts
+    sei();
+
+    seg_dispaly_set_digits(GET_INT(sw_ver[1]), GET_INT(sw_ver[3]), GET_INT(sw_ver[5]));
+    _delay_ms(2000);
+    LEDG_ON;
+}
+
+void device_idle_callback(void)
+{
+    seg_display_clear();
+    buf_num_init(&disp_num_buf);
+}
+
 int main(void)
 {
     int8_t key;
     int16_t number;
-    num_buf_t disp_num_buf;
-
-    uint8_t counter = 0, contrast = 1;
 
     init();
+    matrix_keypad_register_idle_cb(device_idle_callback);
     buf_num_init(&disp_num_buf);
 
-    TX_NEWLINE;
-    transmitString_F(PSTR(" Compiled: " __DATE__ ", "__TIME__
-                          "\n\r"));
-    transmitString_F(PSTR("*   \tE-mail:  \" jgiertl@alps.cz \"        *\r\n"));
-    TX_NEWLINE;
+    seg_display_set_contrast(seg_disp_contrast);
+
+    seg_display_wait_animation(0, 2, 125);
+    seg_display_clear();
 
     while (1)
     {
         _delay_ms(25);
-
         key = matrix_keypad_process();
-        transmitHex(INT, key);
-        transmitString_F(PSTR("  "));
-
-        transmitHex(INT, contrast);
-
-        seg_display_set_contrast(contrast);
-
-        contrast++;
-        if (contrast == 0xff)
-            contrast = 0;
-
-        transmitString_F(PSTR(" \r\n--> "));
 
         if (key == -1)
             continue;
 
         if (matrix_keypad_is_enter_key(key))
         {
-            transmitString_F(PSTR(" enter "));
+            // transmitString_F(PSTR(" enter "));
+            buf_num_get_number(&disp_num_buf, &number);
+            usart_simple_protocol_transmit(number);
+
+            buf_num_init(&disp_num_buf);
+            seg_display_draw_circle();
+            _delay_ms(1000);
+            seg_display_clear();
         }
         else if (matrix_keypad_is_clear_key(key))
         {
-            transmitString_F(PSTR(" clear "));
-            seg_display_clear();
+            // transmitString_F(PSTR(" clear "));
+            buf_num_init(&disp_num_buf);
+            seg_display_draw_line();
+            // _delay_ms(1000);
+            // seg_display_clear();
         }
         else
         {
-            transmitString_F(PSTR(" other "));
+            // transmitString_F(PSTR(" other "));
             buf_num_put(&disp_num_buf, key);
-
             buf_num_get_number(&disp_num_buf, &number);
             seg_dispaly_set_dec_num(number);
         }
-
-        // _delay_ms(250);
-        // _delay_ms(250);
+        // transmitHex(INT, key);
+        // transmitString_F(PSTR(" \r\n--> "));
+        // if (contrast == 0xff)
+        //     contrast = 0;
+        // contrast++;
+        // seg_display_set_contrast(contrast);
     }
-
     return 0;
 }

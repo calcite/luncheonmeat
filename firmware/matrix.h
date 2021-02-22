@@ -6,7 +6,8 @@
 #define _MATRIX_H_
 
 #include <avr/io.h>
-#include <stdbool.h> 
+#include <stdbool.h>
+#include "hw_def.h"
 
 #define ROW_0_PIN		PINB1
 #define ROW_1_PIN		PINB0
@@ -40,7 +41,6 @@ typedef void (*device_idle)(void);
 
 void matrix_keypad_register_idle_cb(device_idle cb);
 void matrix_keypad_idle_reset(void);
-
 
 bool matrix_keypad_is_enter_key(int8_t key);
 bool matrix_keypad_is_clear_key(int8_t key);

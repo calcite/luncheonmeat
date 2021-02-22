@@ -5,7 +5,24 @@
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
+#include "hw_def.h"
 
+#ifdef SEG_DISPLAY_INVERTED
+#define seg_a		2//7
+#define seg_b		1//6
+#define seg_c		4//5
+#define seg_d		5//4
+#define seg_e		0//3
+#define seg_f		7//2
+#define seg_g		6//1
+#define seg_dp		3//0
+
+/* Segment multiplexing */
+#define SEG_POS_0              2
+#define SEG_POS_1              1
+#define SEG_POS_2              0
+
+#else
 
 #define seg_a		7
 #define seg_b		6
@@ -15,6 +32,13 @@
 #define seg_f		2
 #define seg_g		1
 #define seg_dp		0
+
+/* Segment multiplexing */
+#define SEG_POS_0              0
+#define SEG_POS_1              1
+#define SEG_POS_2              2
+#endif
+
 #define A		0
 #define N		1
 
@@ -44,12 +68,8 @@
 #define SEG_E_PORT      PORTC
 #define SEG_F_PORT      PORTD
 #define SEG_G_PORT      PORTD
-#define SEG_DP_PORT      PORTC
+#define SEG_DP_PORT     PORTC
 
-/* Segment multiplexing */
-#define SEG_POS_0              0
-#define SEG_POS_1              1
-#define SEG_POS_2              2
 
 #define SEG_POS_0_DDR          DDRC
 #define SEG_POS_0_PORT         PORTC

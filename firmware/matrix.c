@@ -145,6 +145,7 @@ void matric_keypad_wait_key_release(void)
     } while (key != 0);
 }
 
+#ifdef MATRIX_LAYPUT_NORMAL
 int8_t matrix_keypad_decode_key(int8_t key_hex_num)
 {
     switch (key_hex_num)
@@ -190,6 +191,55 @@ int8_t matrix_keypad_decode_key(int8_t key_hex_num)
         break;
     }
 }
+#endif
+
+#ifdef MATRIX_LAYPUT_PHONE_INVERTED
+int8_t matrix_keypad_decode_key(int8_t key_hex_num)
+{
+    switch (key_hex_num)
+    {
+    case 0x1A:
+        return 1;
+        break;
+    case 0x2A:
+        return 2;
+        break;
+    case 0x3A:
+        return 3;
+        break;
+    case 0x1B:
+        return 4;
+        break;
+    case 0x2B:
+        return 5;
+        break;
+    case 0x3B:
+        return 6;
+        break;
+    case 0x1C:
+        return 7;
+        break;
+    case 0x2C:
+        return 8;
+        break;
+    case 0x3C:
+        return 9;
+        break;
+    case 0x1D:
+        return MK_KEY_CLEAR;
+        break;
+    case 0x2D:
+        return 0;
+        break;
+    case 0x3D:
+        return MK_KEY_ENTER;
+        break;
+    default:
+        return -1;
+        break;
+    }
+}
+#endif
 
 inline bool matrix_keypad_is_enter_key(int8_t key)
 {

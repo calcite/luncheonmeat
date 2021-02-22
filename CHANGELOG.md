@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.4.0 [2021/02/18]
+
+- segments inverted to back side.
+- keypad mapping changed to mobile phone layout.
+- maximum of 3 digits can be imputed at the time. (There is no owerflow)
+- variable single digit multiplex to increase brightness.
+
 ## v0.3.0 [2021/02/18]
 
 First firmware release. This release includes:

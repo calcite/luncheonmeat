@@ -23,20 +23,24 @@
 volatile uint8_t seg_display_data[3] = {0xFF, 0xFF, 0xFF};
 volatile uint8_t seg_display_digits[3] = {0, 0, 0};
 volatile uint8_t seg_display_contrast = 0x00;
+volatile uint8_t seg_display_n_digits = 0x03;
+const uint8_t seg_display_digits_in_order[] = {seg_a, seg_b, seg_c, seg_d, seg_e, seg_f, seg_g, seg_dp};
 
 /*
  * function prototypes
  */
-static void seg_display_write(uint8_t d);
+inline static void seg_display_write(uint8_t d);
 inline static void seg_display_data_port_out(void);
-inline static void seg_display_pos_gate_clear(void);
+inline static seg_dispaly_set_segment(uint8_t pos, uint8_t seg_char);
+inline static void seg_display_pos_gate_clear_all(void);
+inline static void seg_display_pos_gate_clear(uint8_t gate_num);
 inline static void seg_display_pos_gate_set(uint8_t gate_num);
 void seg_display_clear(void);
 
 /*
  * local functions
  */
-static void seg_display_write(uint8_t d)
+inline static void seg_display_write(uint8_t d)
 {
     if (d & 0x80)
         sbi(SEG_A_PORT, SEG_A_PIN);
@@ -84,11 +88,27 @@ inline static void seg_display_data_port_out(void)
     sbi(SEG_DP_DDR, SEG_DP_PIN);
 }
 
-inline static void seg_display_pos_gate_clear(void)
+inline static void seg_display_pos_gate_clear_all(void)
 {
     sbi(SEG_POS_0_PORT, SEG_POS_0_PIN);
     sbi(SEG_POS_1_PORT, SEG_POS_1_PIN);
     sbi(SEG_POS_2_PORT, SEG_POS_2_PIN);
+}
+
+inline static void seg_display_pos_gate_clear(uint8_t gate_num)
+{
+    switch (gate_num)
+    {
+    case SEG_POS_0:
+        sbi(SEG_POS_0_PORT, SEG_POS_0_PIN);
+        break;
+    case SEG_POS_1:
+        sbi(SEG_POS_1_PORT, SEG_POS_1_PIN);
+        break;
+    case SEG_POS_2:
+        sbi(SEG_POS_2_PORT, SEG_POS_2_PIN);
+        break;
+    }
 }
 
 inline static void seg_display_pos_gate_set(uint8_t gate_num)
@@ -107,7 +127,7 @@ inline static void seg_display_pos_gate_set(uint8_t gate_num)
     }
 }
 
-void seg_dispaly_set_segment(uint8_t pos, uint8_t seg_char)
+inline static seg_dispaly_set_segment(uint8_t pos, uint8_t seg_char)
 {
     seg_display_write(seg_char);
 }
@@ -155,6 +175,9 @@ void seg_dispaly_set_dec_num(uint16_t num)
             i++;
         }
     }
+#ifdef SEG_DISPALY_SINGLE_DIGIT_OPT
+    seg_display_n_digits = ++i;
+#endif
 }
 
 void seg_display_clear(void)
@@ -168,12 +191,13 @@ void seg_display_wait_animation(uint8_t from, uint8_t to, uint16_t speed)
     uint8_t i, j;
     uint16_t wait;
 
-    for (i = 2; i < 8; i++)
+    for (i = 0; i < 6; i++)
     {
         wait = speed;
         for (j = from; j <= to; j++)
         {
-            seg_display_data[j] = ~(1 << i);
+            // seg_display_data[j] = ~(1 << i);
+            seg_display_data[j] = ~(1 << seg_display_digits_in_order[i]);
         }
         while (0 < wait)
         {
@@ -213,33 +237,22 @@ void seg_display_init(void)
 ISR(TIMER1_OVF_vect)
 {
     static uint8_t pos_show = 0;
-    static uint16_t counter = 0;
     uint8_t temp;
     cli();
 
-    counter++;
-    TCNT1 = 0xF000 - seg_display_contrast;
+    TCNT1 = 0x8000; // - seg_display_contrast;
 
-    // if (counter % seg_display_contrast == 0)
-    // {
-    // LEDG_OFF;
-    pos_show = (pos_show + 1) & 3;
+    // seg_display_pos_gate_clear(pos_show);
+    // pos_show = (pos_show + 1) & 3;
 
+    seg_display_pos_gate_clear_all();
     temp = seg_display_data[pos_show];
-    seg_display_pos_gate_clear();
     seg_dispaly_set_segment(pos_show, temp);
     seg_display_pos_gate_set(pos_show);
 
-    // _delay_us(100);
-    // }
-    // else
-    // {
-    //     LEDG_ON;
-    // }
+    pos_show++;
+    if (pos_show >= seg_display_n_digits)
+        pos_show = 0;
 
-    // for (int i = 0; i < seg_display_contrast; ++i)
-    // {
-    // _delay_us(32);
-    // }
     sei();
 }

@@ -30,6 +30,7 @@ typedef struct _num_buf_t
 {
 #define NUM_BUF_MAX (3)
     uint8_t head_, tail_;
+    bool full;
     int16_t number;
     uint8_t digit[NUM_BUF_MAX];
 } num_buf_t;
@@ -43,6 +44,7 @@ void buf_num_init(num_buf_t *n_buf)
 {
     n_buf->head_ = 0;
     n_buf->tail_ = 0;
+    n_buf->full = false;
     n_buf->number = 0;
     for (uint8_t i = 0; i < NUM_BUF_MAX; ++i)
         n_buf->digit[i] = 0;
@@ -52,7 +54,10 @@ void buf_num_put(num_buf_t *n_buf, uint8_t digit)
 {
     n_buf->head_ = (n_buf->head_ + 1) % NUM_BUF_MAX;
     if (n_buf->head_ == n_buf->tail_)
+    {
         n_buf->tail_ = (n_buf->tail_ + 1) % NUM_BUF_MAX;
+        n_buf->full = true;
+    }
 
     n_buf->digit[n_buf->head_] = digit;
 }
@@ -65,6 +70,11 @@ uint8_t buf_num_get(num_buf_t *n_buf)
     uint8_t val = n_buf->digit[n_buf->tail_];
     n_buf->tail_ = (n_buf->tail_ + 1) % NUM_BUF_MAX;
     return val;
+}
+
+bool buf_num_full(num_buf_t *n_buf)
+{
+    return n_buf->full;
 }
 
 void buf_num_get_number(num_buf_t *n_buf, int16_t *num)
@@ -123,7 +133,8 @@ int main(void)
 
     seg_display_set_contrast(seg_disp_contrast);
 
-    seg_display_wait_animation(0, 2, 125);
+    seg_display_wait_animation(0, 2, 100);
+    seg_display_wait_animation(0, 2, 100);
     seg_display_clear();
 
     while (1)
@@ -142,7 +153,7 @@ int main(void)
 
             buf_num_init(&disp_num_buf);
             seg_display_draw_circle();
-            _delay_ms(1000);
+            _delay_ms(500);
             seg_display_clear();
         }
         else if (matrix_keypad_is_clear_key(key))
@@ -150,12 +161,15 @@ int main(void)
             // transmitString_F(PSTR(" clear "));
             buf_num_init(&disp_num_buf);
             seg_display_draw_line();
-            // _delay_ms(1000);
-            // seg_display_clear();
+            _delay_ms(500);
+            seg_display_clear();
         }
         else
         {
             // transmitString_F(PSTR(" other "));
+            if (buf_num_full(&disp_num_buf))
+                continue;
+
             buf_num_put(&disp_num_buf, key);
             buf_num_get_number(&disp_num_buf, &number);
             seg_dispaly_set_dec_num(number);

@@ -7,6 +7,8 @@
 
 #include "hw_def.h"
 
+#define SEG_DISPALY_N_SEGS (3)
+
 #ifdef SEG_DISPLAY_INVERTED
 #define seg_a		2//7
 #define seg_b		1//6

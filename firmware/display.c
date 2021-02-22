@@ -158,6 +158,7 @@ void seg_dispaly_set_dec_num(uint16_t num)
     if (num == 0)
     {
         seg_display_data[0] = seg_display_chars[0];
+        i++;
     }
     else
     {
@@ -176,7 +177,7 @@ void seg_dispaly_set_dec_num(uint16_t num)
         }
     }
 #ifdef SEG_DISPALY_SINGLE_DIGIT_OPT
-    seg_display_n_digits = ++i;
+    seg_display_n_digits = i;
 #endif
 }
 
@@ -190,7 +191,9 @@ void seg_display_wait_animation(uint8_t from, uint8_t to, uint16_t speed)
 {
     uint8_t i, j;
     uint16_t wait;
-
+#ifdef SEG_DISPALY_SINGLE_DIGIT_OPT
+    seg_display_n_digits = SEG_DISPALY_N_SEGS;
+#endif
     for (i = 0; i < 6; i++)
     {
         wait = speed;
@@ -209,6 +212,9 @@ void seg_display_wait_animation(uint8_t from, uint8_t to, uint16_t speed)
 
 void seg_display_draw_circle(void)
 {
+#ifdef SEG_DISPALY_SINGLE_DIGIT_OPT
+    seg_display_n_digits = SEG_DISPALY_N_SEGS;
+#endif
     seg_display_data[2] = ~((1 << seg_a) | (1 << seg_d) | (1 << seg_e) | (1 << seg_f));
     seg_display_data[1] = ~((1 << seg_a) | (1 << seg_d));
     seg_display_data[0] = ~((1 << seg_a) | (1 << seg_b) | (1 << seg_c) | (1 << seg_d));
@@ -216,6 +222,9 @@ void seg_display_draw_circle(void)
 
 void seg_display_draw_line(void)
 {
+#ifdef SEG_DISPALY_SINGLE_DIGIT_OPT
+    seg_display_n_digits = SEG_DISPALY_N_SEGS;
+#endif
     for (uint8_t x = 0; x < 3; x++)
     {
         seg_display_data[x] = ~(1 << seg_g);

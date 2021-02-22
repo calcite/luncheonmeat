@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## v0.4.0 [2021/02/18]
+## v0.4.1 [2021/02/22]
+
+- fix multiplex for animations and special characters.
+
+## v0.4.0 [2021/02/22]
 
 - segments inverted to back side.
 - keypad mapping changed to mobile phone layout.

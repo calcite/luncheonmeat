@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.4.2 [2021/03/03]
+
+- fix zero imput handling, hwen zero is imputed as first character.
+
 ## v0.4.1 [2021/02/22]
 
 - fix multiplex for animations and special characters.

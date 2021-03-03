@@ -30,7 +30,7 @@ typedef struct _num_buf_t
 {
 #define NUM_BUF_MAX (3)
     uint8_t head_, tail_;
-    bool full;
+    bool full, empty;
     int16_t number;
     uint8_t digit[NUM_BUF_MAX];
 } num_buf_t;
@@ -45,6 +45,7 @@ void buf_num_init(num_buf_t *n_buf)
     n_buf->head_ = 0;
     n_buf->tail_ = 0;
     n_buf->full = false;
+    n_buf->empty = true;
     n_buf->number = 0;
     for (uint8_t i = 0; i < NUM_BUF_MAX; ++i)
         n_buf->digit[i] = 0;
@@ -60,13 +61,17 @@ void buf_num_put(num_buf_t *n_buf, uint8_t digit)
     }
 
     n_buf->digit[n_buf->head_] = digit;
+    n_buf->empty = false;
 }
 
 uint8_t buf_num_get(num_buf_t *n_buf)
 {
+    n_buf->full = false;
     if (n_buf->head_ == n_buf->tail_) //empty
+    {
+        n_buf->empty = true;
         return -1;
-
+    }
     uint8_t val = n_buf->digit[n_buf->tail_];
     n_buf->tail_ = (n_buf->tail_ + 1) % NUM_BUF_MAX;
     return val;
@@ -75,6 +80,11 @@ uint8_t buf_num_get(num_buf_t *n_buf)
 bool buf_num_full(num_buf_t *n_buf)
 {
     return n_buf->full;
+}
+
+bool buf_num_empty(num_buf_t *n_buf)
+{
+    return n_buf->empty;
 }
 
 void buf_num_get_number(num_buf_t *n_buf, int16_t *num)
@@ -169,6 +179,12 @@ int main(void)
             // transmitString_F(PSTR(" other "));
             if (buf_num_full(&disp_num_buf))
                 continue;
+
+            if (buf_num_empty(&disp_num_buf) && key == 0)
+            {
+                seg_dispaly_set_dec_num(0);
+                continue;
+            }
 
             buf_num_put(&disp_num_buf, key);
             buf_num_get_number(&disp_num_buf, &number);

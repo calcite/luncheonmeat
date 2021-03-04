@@ -44,13 +44,24 @@ avrdude -p atmega328pb -P usb -c dragon_isp    -U flash:w:luncheonmeat.hex -U ee
 ```
 
 
-### Serial Bootloader (not implemented)
+### Serial Bootloader
 
 Generating ``defines.h`` file:
 ```shell
-./preprocessor.sh atmega328pb 2048 PORTB PINB7 8000000 19200
+cd firmware/bootloader
+./preprocessor.sh atmega328pb 2048 PORTB PINB0 8000000 19200
+make
+make program
+make program-fuses
 ```
+
+Reading target fuses:
+```shell
+avrdude -p atmega328pb -P usb -c dragon_isp -U efuse:r:-:h
+```
+
+To enter bootloader hold ''5'' button and reset the device.
 
 ## Resources
 
-- [fuses calculator](http://eleccelerator.com/fusecalc/fusecalc.php?chip=atmega88p&LOW=4C&HIGH=DF&EXTENDED=F9&LOCKBIT=FF)
+- [fuses calculator](http://eleccelerator.com/fusecalc/fusecalc.php?chip=atmega328p&LOW=E2&HIGH=D8&EXTENDED=F7&LOCKBIT=FF)

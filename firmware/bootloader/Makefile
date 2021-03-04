@@ -11,7 +11,7 @@ TARGET = bootloader
 SRC = main.c serial.c
 ASRC = 
 OPT = s
-BASEADDR = 0x1800
+BASEADDR = 0x7000
 
 # Name of this Makefile (used for "make depend").
 MAKEFILE = Makefile
@@ -88,12 +88,17 @@ LDFLAGS = -Ttext=$(BASEADDR) $(EXTMEMOPTS) $(LDMAP) $(PRINTF_LIB) $(SCANF_LIB) $
 
 # Programming support using avrdude. Settings and variables.
 
-AVRDUDE_PROGRAMMER = stk500
-AVRDUDE_PORT = /dev/ttya
+AVRDUDE_PROGRAMMER = dragon_isp
+# AVRDUDE_PORT = /dev/ttya
+AVRDUDE_PORT = usb
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
+AVRDUDE_WRITE_LFUSE = -U lfuse:w:0xE2:m
+AVRDUDE_WRITE_HFUSE = -U hfuse:w:0xD8:m
+AVRDUDE_WRITE_EFUSE = -U efuse:w:0xFF:m
+# AVRDUDE_WRITE_LOCK = -U lock:w:0xFF:m
 
 # Uncomment the following if you want avrdude's erase cycle counter.
 # Note that this counter needs to be initialized first using -Yn,
@@ -150,8 +155,9 @@ sym: $(TARGET).sym
 program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
-
-
+# Program device fuses.
+program-fuses:
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_LFUSE) $(AVRDUDE_WRITE_HFUSE) ${AVRDUDE_WRITE_EFUSE} $(AVRDUDE_WRITE_LOCK)
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
 COFFCONVERT=$(OBJCOPY) --debugging \

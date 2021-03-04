@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.4.4 [2021/03/04]
+
+- added AVR109 bootloader.
+
 ## v0.4.3 [2021/03/04]
 
 - allow to send single zero.

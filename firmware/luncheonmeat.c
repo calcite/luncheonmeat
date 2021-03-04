@@ -18,8 +18,7 @@
 #endif
 
 #define GET_INT(s) ((s)-0x30)
-#define LEDG_OFF LED_PORT &= ~(1 << LED_G);
-#define LEDG_ON LED_PORT |= (1 << LED_G);
+
 
 const char comment[] PROGMEM = COMMENT;
 const char fw_ver[] PROGMEM = HW_VER_TAG;

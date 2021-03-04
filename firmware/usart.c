@@ -238,3 +238,8 @@ void usart_simple_protocol_transmit(int16_t number)
         usart_transmit(data[i]);
     }
 }
+
+void usart_simple_protocol_transmit_clear(void)
+{
+    usart_simple_protocol_transmit(USART_SP_CLEAR_FLAG);
+}

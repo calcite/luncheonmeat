@@ -37,6 +37,15 @@
 #define MK_KEY_CLEAR (0x2A)
 #define MK_KEY_ENTER (0x23)
 
+
+#define MK_UNIT_DELAY_MS                    (1)
+#define MK_LONG_PUSH_TRESHHOLD_MS           (2000)
+#define MK_LONG_PUSH_TRESHHOLD_MS_MAX       (5000)
+
+#define MK_LONG_PUSH_TRESHHOLD ((uint32_t)(MK_LONG_PUSH_TRESHHOLD_MS) / (MK_UNIT_DELAY_MS))
+#define MK_LONG_PUSH_TRESHHOLD_MAX ((uint32_t)(MK_LONG_PUSH_TRESHHOLD_MS_MAX) / (MK_UNIT_DELAY_MS))
+
+
 typedef void (*device_idle)(void);
 
 void matrix_keypad_register_idle_cb(device_idle cb);
@@ -44,9 +53,10 @@ void matrix_keypad_idle_reset(void);
 
 bool matrix_keypad_is_enter_key(int8_t key);
 bool matrix_keypad_is_clear_key(int8_t key);
+bool matric_keypad_is_long_push(uint32_t et_count);
 
-void matric_keypad_wait_key_release(void);
-int8_t matrix_keypad_process(void);
+uint32_t matric_keypad_wait_key_release(void);
+int8_t matrix_keypad_process(uint32_t *et_count);
 void matrix_keypad_init(void);
 
 #endif

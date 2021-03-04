@@ -26,6 +26,8 @@ const char fw_ver[] PROGMEM = HW_VER_TAG;
 const char sw_ver[] PROGMEM = SW_VER_TAG;
 const uint8_t seg_disp_contrast EEMEM = 128;
 
+volatile bool zero_flag = false;
+
 typedef struct _num_buf_t
 {
 #define NUM_BUF_MAX (3)
@@ -136,6 +138,7 @@ int main(void)
 {
     int8_t key;
     int16_t number;
+    uint32_t et_count = 0; //elapsed time count
 
     init();
     matrix_keypad_register_idle_cb(device_idle_callback);
@@ -150,7 +153,7 @@ int main(void)
     while (1)
     {
         _delay_ms(25);
-        key = matrix_keypad_process();
+        key = matrix_keypad_process(&et_count);
 
         if (key == -1)
             continue;
@@ -158,6 +161,9 @@ int main(void)
         if (matrix_keypad_is_enter_key(key))
         {
             // transmitString_F(PSTR(" enter "));
+            if (buf_num_empty(&disp_num_buf))
+                continue;
+
             buf_num_get_number(&disp_num_buf, &number);
             usart_simple_protocol_transmit(number);
 
@@ -170,27 +176,33 @@ int main(void)
         {
             // transmitString_F(PSTR(" clear "));
             buf_num_init(&disp_num_buf);
+
+            if (matric_keypad_is_long_push(et_count))
+                usart_simple_protocol_transmit_clear();
+
             seg_display_draw_line();
             _delay_ms(500);
             seg_display_clear();
         }
         else
         {
-            // transmitString_F(PSTR(" other "));
             if (buf_num_full(&disp_num_buf))
                 continue;
 
-            if (buf_num_empty(&disp_num_buf) && key == 0)
+            if (zero_flag)
             {
-                seg_dispaly_set_dec_num(0);
-                continue;
+                zero_flag = false;
+                buf_num_init(&disp_num_buf);
             }
+
+            if (buf_num_empty(&disp_num_buf) && key == 0)
+                zero_flag = true;
 
             buf_num_put(&disp_num_buf, key);
             buf_num_get_number(&disp_num_buf, &number);
             seg_dispaly_set_dec_num(number);
         }
-        // transmitHex(INT, key);
+        // transmitHex(INT, MK_LONG_PUSH_TRESHHOLD);
         // transmitString_F(PSTR(" \r\n--> "));
         // if (contrast == 0xff)
         //     contrast = 0;

@@ -9,6 +9,8 @@
 // #define BAUD 9600
 #define CAL_UBRR (F_CPU / 16 / BAUD - 1)
 
+#define USART_SP_CLEAR_FLAG (0xFFFF)
+
 #define CHAR 0
 #define INT 1
 #define LONG 2
@@ -31,5 +33,6 @@ void transmitHex(unsigned char dataType, unsigned long data);
 
 void usart_simple_protocol_init(void);
 void usart_simple_protocol_transmit(int16_t number);
+void usart_simple_protocol_transmit_clear(void);
 
 #endif

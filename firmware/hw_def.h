@@ -8,7 +8,7 @@
 #include <avr/version.h>
 
 #define HW_VER_TAG "v0.2.4"
-#define SW_VER_TAG "v0.4.2"
+#define SW_VER_TAG "v0.4.3"
 #define COMMENT "Luncheonmeat (" SW_VER_TAG "). "              \
                 "Simple keypad controle device with display. " \
                 "Compiled: " __DATE__ ", " __TIME__ ". "       \

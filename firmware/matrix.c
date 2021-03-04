@@ -44,8 +44,9 @@ inline bool matrix_keypad_is_clear_key(int8_t key);
 void matrix_keypad_timer_2_init(void)
 {
     TCNT2 = 0x0000;
-    TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20); // Normal operation, F_CPU/1024
-    TIMSK2 |= (1 << TOIE2);                           // Overflow Interrupt Enable
+    TCCR2B =
+        (1 << CS22) | (1 << CS21) | (1 << CS20); // Normal operation, F_CPU/1024
+    TIMSK2 |= (1 << TOIE2);                      // Overflow Interrupt Enable
 }
 
 static inline void matric_keypad_set_col_port_out(void)
@@ -135,14 +136,18 @@ ERROR:
     return h_key;
 }
 
-void matric_keypad_wait_key_release(void)
+uint32_t matric_keypad_wait_key_release(void)
 {
     int key;
+    uint32_t delay_cnt = 0;
     do
     {
-        _delay_us(50);
+        delay_cnt++;
+        _delay_ms(MK_UNIT_DELAY_MS);
         key = matric_keypad_read();
-    } while (key != 0);
+    } while ((key != 0) && (delay_cnt <= MK_LONG_PUSH_TRESHHOLD_MAX));
+
+    return delay_cnt;
 }
 
 #ifdef MATRIX_LAYPUT_NORMAL
@@ -251,12 +256,17 @@ inline bool matrix_keypad_is_clear_key(int8_t key)
     return key == MK_KEY_CLEAR;
 }
 
-int8_t matrix_keypad_process()
+inline bool matric_keypad_is_long_push(uint32_t et_count)
+{
+    return et_count >= MK_LONG_PUSH_TRESHHOLD;
+}
+
+int8_t matrix_keypad_process(uint32_t *et_count)
 {
     int8_t key;
 
     key = matric_keypad_read();
-    matric_keypad_wait_key_release();
+    *et_count = matric_keypad_wait_key_release();
 
     // if (key != -1)
     //     matrix_keypad_idle_reset();

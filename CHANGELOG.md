@@ -1,8 +1,13 @@
 # CHANGELOG
 
+## v0.4.3 [2021/03/04]
+
+- allow to send single zero.
+- add clear command send on clear button long push.
+
 ## v0.4.2 [2021/03/03]
 
-- fix zero imput handling, hwen zero is imputed as first character.
+- fix zero imput handling, when zero is imputed as first character.
 
 ## v0.4.1 [2021/02/22]
 
